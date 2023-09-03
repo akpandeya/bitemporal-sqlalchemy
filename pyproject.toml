@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "bitemporal-sqlalchemy"
+version = "0.1.0"
+description = ""
+authors = ["Avanindra Kumar Pandeya <akpandeya1@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+SQLAlchemy = "^2.0.20"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+flake8 = "^6.1.0"
+pre-commit = "^3.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

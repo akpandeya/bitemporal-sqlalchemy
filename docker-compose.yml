@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: ${DOCKER_REGISTRY-}mytemporaldb
+    build:
+      context: .
+      dockerfile: infrastructure/postgres/Dockerfile
+      args:
+        - VERSION=0.2.0
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    mem_limit: 512M
+    restart: always
+    environment:
+      POSTGRES_DB: temporaldb
+      POSTGRES_USER: temporalsqluser
+      POSTGRES_PASSWORD: temporalsqlpassword
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - pgdata:/var/lib/postgresql/data:rw
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    mem_limit: 512M
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: login@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - .data/pgadmin:/root/.pgadmin
+
+volumes:
+  pgdata:
